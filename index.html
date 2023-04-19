@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>URL Shortener</title>
+    <!-- Add Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">URL Shortener</h1>
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="url-input"
+              placeholder="Enter URL to shorten"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-primary" type="button" id="shorten-btn">
+                Shorten
+              </button>
+            </div>
+          </div>
+          <a id="short-url" class="d-none"></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <!-- Add custom JS -->
+    <script>
+      const shortenBtn = document.getElementById("shorten-btn");
+      const urlInput = document.getElementById("url-input");
+      const urlOutput = document.getElementById("short-url");
+
+      shortenBtn.addEventListener("click", async function () {
+        let long_url = urlInput.value;
+        console.log(long_url);
+        const apiUrl = `https://bz7d3a6j2i.execute-api.us-east-1.amazonaws.com/dev/shortener?long_url="${long_url}"`;
+        console.log(apiUrl);
+
+        const response = await fetch(apiUrl);
+
+        const data = await response.json();
+        shortUrl = data.short_url;
+
+        urlOutput.innerHTML = shortUrl;
+        urlOutput.href = shortUrl;
+        urlOutput.classList.remove("d-none");
+      });
+    </script>
+  </body>
+</html>
